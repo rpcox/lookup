@@ -12,17 +12,14 @@ All returned fields are tab separated.
      www.golang.org	A	 2607:f8b0:4007:80e::2011
      >
 
-
      > go run lookup.go -cname www.cisco.com
      www.cisco.com	CNAME	 e2867.dsca.akamaiedge.net.
      >
-
 
      > go run lookup.go -mx cox.com
      cox.com	MX	mxa-002b3901.gslb.pphosted.com.	 10
      cox.com	MX	mxb-002b3901.gslb.pphosted.com.	 10
      >
-
 
      > go run lookup.go -ns google.com
      google.com	NS	ns3.google.com.
@@ -31,18 +28,15 @@ All returned fields are tab separated.
      google.com	NS	ns1.google.com.
      >
 
-
      > go run lookup.go -ptr 216.239.32.10
      216.239.32.10	PTR	ns1.google.com.
      > go run lookup.go -ptr 2607:f8b0:4007:80e::2011
      2607:f8b0:4007:80e::2011	PTR	lax31s01-in-x11.1e100.net.
      >
 
-
      > go run lookup.go -srv spud.com -s xmpp-server -p tcp
      lookup _xmpp-server._tcp.spud.com on 127.0.0.53:53: no such host
      >
-
 
      > go run lookup.go -txt costco.com
      costco.com	TXT	have-i-been-pwned-verification=7411effeb11c12300a4c027396b4cf0f
@@ -55,5 +49,5 @@ All returned fields are tab separated.
      costco.com	TXT	google-site-verification=3Kx9tc2_v5CgX3NuVqNwWFZRYanPPJCP3__8KbRxn5Q
      costco.com	TXT	adobe-idp-site-verification=ae9e3f0f-2848-4000-aed4-e1c7e8031815
      costco.com	TXT	v=spf1 include:_spf.costco.com include:_spf.google.com include:_spf1.costco.com      include:_spf2.costco.com include:_spf3.costco.com include:_spf4.costco.com include:spf-001f9d01.pphosted.com -all
-
+     >
 
