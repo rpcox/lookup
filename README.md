@@ -4,6 +4,8 @@ Succinct DNS record lookup.
 
 I needed simple terse easy to parse DNS record information for a bash script. This worked.
 
+All returned fields are tab separated.
+
 
      > go run lookup.go -a www.golang.org
      www.golang.org	A	 172.217.4.177
