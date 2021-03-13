@@ -1,9 +1,4 @@
-/*
- *   lookup.go - Short quick DNS record lookup.  Perfect for use in a bash script.
- *
- *   v 1.0
- */
-
+// lookup.go - Short quick DNS record lookup.  Perfect for use in a bash script.
 package main
 
 import (
