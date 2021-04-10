@@ -6,6 +6,10 @@ I needed simple terse easy to parse DNS record information for a bash script. Th
 
 All returned fields are tab separated.
 
+     > go run lookup.go www.golang.org
+     www.golang.org	A	 172.217.4.177
+     www.golang.org	A	 2607:f8b0:4007:80e::2011
+     >
 
      > go run lookup.go -a www.golang.org
      www.golang.org	A	 172.217.4.177
@@ -26,6 +30,12 @@ All returned fields are tab separated.
      google.com	NS	ns2.google.com.
      google.com	NS	ns4.google.com.
      google.com	NS	ns1.google.com.
+     >
+
+     > go run lookup.go 216.239.32.10
+     216.239.32.10	PTR	ns1.google.com.
+     > go run lookup.go -ptr 2607:f8b0:4007:80e::2011
+     2607:f8b0:4007:80e::2011	PTR	lax31s01-in-x11.1e100.net.
      >
 
      > go run lookup.go -ptr 216.239.32.10

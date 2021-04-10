@@ -6,8 +6,17 @@ import (
   "flag"
   "fmt"
   "net"
+  "os"
   "time"
 )
+
+func isValidIP(object string) bool {
+  if net.ParseIP(object) != nil {
+    return true
+  } else {
+    return false
+  }
+}
 
 var a_rec, cname, mx, ns, ptr, srv, proto, serv, txt, help string
 
@@ -25,7 +34,16 @@ func init() {
 }
 
 func main() {
-  flag.Parse()
+
+  noFlags := true
+  netObject := ""
+
+  if len(os.Args) > 2 {
+    flag.Parse()
+    noFlags = false
+  } else {
+    netObject = os.Args[1]
+  }
 
   // Sometimes nameservers timeout
   ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
@@ -38,61 +56,79 @@ func main() {
             fmt.Println(ctx.Err())
   default:
 
-    if a_rec != "" {                               // A
-      list, err := net.LookupIP(a_rec)
-      if ( err != nil ) { fmt.Println(err) }
-      for _, ip := range list {
-        fmt.Println(a_rec + "\tA\t", ip)
-      }
-    } else if cname != ""  {                       // CNAME
-      name, err := net.LookupCNAME(cname)
-      if ( err != nil ) { fmt.Println(err) }
-      fmt.Println(cname + "\tCNAME\t", name)
-    } else if mx != ""  {                          // MX
-      mx_records, err := net.LookupMX(mx)
-      if ( err != nil ) { fmt.Println(err) }
-      for _, record := range mx_records {
-        fmt.Println(mx + "\tMX\t" + record.Host + "\t", record.Pref)
-      }
-    } else if ns != ""  {                          // NS
-      ns_records, err := net.LookupNS(ns)
-      if ( err != nil ) { fmt.Println(err) }
-      for _, record := range ns_records {
-        fmt.Println(ns + "\tNS\t" + record.Host)
-      }
-    } else if ptr != ""  {                         // PTR
-      names, err := net.LookupAddr(ptr)
-      if ( err != nil ) { fmt.Println(err) }
-      for _, name := range names {
-        fmt.Println(ptr + "\tPTR\t" + name)
-      }
-    } else if srv != ""  {                         // SRV
-      if proto != "" && serv != "" {
-        name, services, err := net.LookupSRV(serv, proto, srv)
-        for _, service := range services {
-          fmt.Printf("%s\t%s\t%v\t%v\t%d\t%d\n", srv, name, service.Target, service.Port, service.Priority, service.Weight)
-        }
-        if ( err == nil ) {
-        } else {
-          fmt.Println(err)
+    if noFlags {
+      if isValidIP(netObject) {
+        names, err := net.LookupAddr(netObject)
+        if ( err != nil ) { fmt.Println(err) }
+        for _, name := range names {
+          fmt.Println(netObject + "\tPTR\t" + name)
         }
       } else {
-        fmt.Println("service (-s), protocol (-p) and domain (-d) required")
+        list, err := net.LookupIP(netObject)
+        if ( err != nil ) { fmt.Println(err) }
+        for _, ip := range list {
+          fmt.Println(netObject + "\tA\t", ip)
+        }
       }
-    } else if txt != ""  {                         // TXT
-      records, err := net.LookupTXT(txt)
-      if ( err != nil ) { fmt.Println(err) }
-      for _, record := range records {
-        fmt.Println(txt + "\tTXT\t" + record)
-      }
-    } else if help == ""  {                         // Usage
-      fmt.Println("\nNAME\n    lookup - succinct DNS record retrieval\n")
-      fmt.Println("SYNOPSIS\n    lookup [OPTION]\n")
-      fmt.Println("DESCRIPTION\n    lookup [OPTION]\n")
-      flag.PrintDefaults()
-      fmt.Println()
+
     } else {
-      fmt.Println("Try \"lookup -help\"")
+
+      if a_rec != "" {                               // A
+        list, err := net.LookupIP(a_rec)
+       if ( err != nil ) { fmt.Println(err) }
+        for _, ip := range list {
+          fmt.Println(a_rec + "\tA\t", ip)
+        }
+      } else if cname != ""  {                       // CNAME
+        name, err := net.LookupCNAME(cname)
+        if ( err != nil ) { fmt.Println(err) }
+        fmt.Println(cname + "\tCNAME\t", name)
+      } else if mx != ""  {                          // MX
+        mx_records, err := net.LookupMX(mx)
+        if ( err != nil ) { fmt.Println(err) }
+        for _, record := range mx_records {
+          fmt.Println(mx + "\tMX\t" + record.Host + "\t", record.Pref)
+        }
+      } else if ns != ""  {                          // NS
+        ns_records, err := net.LookupNS(ns)
+        if ( err != nil ) { fmt.Println(err) }
+        for _, record := range ns_records {
+          fmt.Println(ns + "\tNS\t" + record.Host)
+        }
+      } else if ptr != ""  {                         // PTR
+        names, err := net.LookupAddr(ptr)
+        if ( err != nil ) { fmt.Println(err) }
+        for _, name := range names {
+          fmt.Println(ptr + "\tPTR\t" + name)
+        }
+      } else if srv != ""  {                         // SRV
+        if proto != "" && serv != "" {
+          name, services, err := net.LookupSRV(serv, proto, srv)
+          for _, service := range services {
+            fmt.Printf("%s\t%s\t%v\t%v\t%d\t%d\n", srv, name, service.Target, service.Port, service.Priority, service.Weight)
+          }
+          if ( err == nil ) {
+          } else {
+            fmt.Println(err)
+          }
+        } else {
+          fmt.Println("service (-s), protocol (-p) and domain (-d) required")
+        }
+      } else if txt != ""  {                         // TXT
+        records, err := net.LookupTXT(txt)
+        if ( err != nil ) { fmt.Println(err) }
+        for _, record := range records {
+          fmt.Println(txt + "\tTXT\t" + record)
+        }
+      } else if help == ""  {                         // Usage
+        fmt.Println("\nNAME\n    lookup - succinct DNS record retrieval\n")
+        fmt.Println("SYNOPSIS\n    lookup [OPTION]\n")
+        fmt.Println("DESCRIPTION\n    lookup [OPTION]\n")
+        flag.PrintDefaults()
+        fmt.Println()
+      } else {
+        fmt.Println("Try \"lookup -help\"")
+      }
     }
   }
 }
