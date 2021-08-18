@@ -10,6 +10,14 @@ import (
   "time"
 )
 
+func usage() {
+        fmt.Println("\nNAME\n    lookup - succinct DNS record retrieval\n")
+        fmt.Println("SYNOPSIS\n    lookup [OPTION]\n")
+        fmt.Println("DESCRIPTION\n    lookup [OPTION]\n")
+        flag.PrintDefaults()
+        fmt.Println()
+}
+
 func isValidIP(object string) bool {
   if net.ParseIP(object) != nil {
     return true
@@ -42,6 +50,10 @@ func main() {
     flag.Parse()
     noFlags = false
   } else {
+    if flag.NFlag() == 0 {
+      usage()
+      return
+    }
     netObject = os.Args[1]
   }
 
@@ -121,11 +133,7 @@ func main() {
           fmt.Println(txt + "\tTXT\t" + record)
         }
       } else if help == ""  {                         // Usage
-        fmt.Println("\nNAME\n    lookup - succinct DNS record retrieval\n")
-        fmt.Println("SYNOPSIS\n    lookup [OPTION]\n")
-        fmt.Println("DESCRIPTION\n    lookup [OPTION]\n")
-        flag.PrintDefaults()
-        fmt.Println()
+         usage()
       } else {
         fmt.Println("Try \"lookup -help\"")
       }
