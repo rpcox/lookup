@@ -49,8 +49,11 @@ func main() {
 	if len(os.Args) > 2 {
 		flag.Parse()
 		noFlags = false
-	} else {
+	} else if len(os.Args) == 2 {
 		netObject = os.Args[1]
+	} else {
+		usage()
+		os.Exit(1)
 	}
 
 	// Sometimes nameservers timeout
