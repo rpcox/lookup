@@ -4,7 +4,7 @@ Succinct DNS record lookup.
 
 I needed simple terse easy to parse DNS record information for a bash script. This worked.
 
-    go build lookup.go
+    go build main.go
 
 All returned fields are tab separated.
 
@@ -22,7 +22,7 @@ All returned fields are tab separated.
      www.cisco.com	CNAME	 e2867.dsca.akamaiedge.net.
      >
 
-     > lookup.go -mx cox.com
+     > lookup -mx cox.com
      cox.com	MX	mxa-002b3901.gslb.pphosted.com.	 10
      cox.com	MX	mxb-002b3901.gslb.pphosted.com.	 10
      >
@@ -36,13 +36,13 @@ All returned fields are tab separated.
 
      > lookup 216.239.32.10
      216.239.32.10	PTR	ns1.google.com.
-     > go run lookup.go -ptr 2607:f8b0:4007:80e::2011
+     > lookup -ptr 2607:f8b0:4007:80e::2011
      2607:f8b0:4007:80e::2011	PTR	lax31s01-in-x11.1e100.net.
      >
 
      > lookup -ptr 216.239.32.10
      216.239.32.10	PTR	ns1.google.com.
-     > go run lookup.go -ptr 2607:f8b0:4007:80e::2011
+     > lookup -ptr 2607:f8b0:4007:80e::2011
      2607:f8b0:4007:80e::2011	PTR	lax31s01-in-x11.1e100.net.
      >
 
