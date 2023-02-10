@@ -17,13 +17,15 @@ func ShowVersion() {
 }
 
 func ShowUsage(code int) {
-	fmt.Println("\nNAME\n    lookup - succinct DNS record retrieval")
+	fmt.Println("\nNAME\n\tlookup - succinct DNS record retrieval")
 	fmt.Println()
-	fmt.Println("SYNOPSIS\n    lookup [OPTION]")
+	fmt.Println("SYNOPSIS\n\tlookup [OPTION]")
 	fmt.Println()
-	fmt.Println("DESCRIPTION\n    lookup [OPTION]")
+	fmt.Println("DESCRIPTION\n\tlookup [OPTION]")
 	fmt.Println()
 	flag.PrintDefaults()
+	fmt.Println()
+	fmt.Println("\nEXAMPLES\n\thttps://github.com/rpcox/lookup\n")
 	fmt.Println()
 	os.Exit(code)
 }
