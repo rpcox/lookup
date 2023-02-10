@@ -4,7 +4,9 @@ Succinct DNS record lookup.
 
 I needed simple terse easy to parse DNS record information for a bash script. This worked.
 
-    go build main.go
+     git clone https://github.com/rpcox/lookup.git
+     cd lookup
+     go install
 
 All returned fields are tab separated.
 
