@@ -132,6 +132,7 @@ func main() {
 		txt     = flag.String("txt", "", "Domain name required")
 		help    = flag.Bool("help", false, "Show usage")
 		version = flag.Bool("version", false, "Show version")
+		ex      = flag.Bool("example", false, "Show examples")
 	)
 
 	flag.Parse()
@@ -142,6 +143,11 @@ func main() {
 
 	if *version {
 		ShowVersion()
+	}
+
+	if *ex {
+		fmt.Println("\nhttps://github.com/rpcox/lookup\n")
+		os.Exit(0)
 	}
 
 	netObject := ""
